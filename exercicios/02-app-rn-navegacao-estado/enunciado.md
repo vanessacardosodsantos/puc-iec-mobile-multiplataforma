@@ -9,9 +9,7 @@
 
 ## Por que essa atividade
 
-Aula 2 cobriu **React Native New Architecture** (JSI, Fabric, TurboModules) + ferramentas modernas (React Navigation, Redux Toolkit + RTK Query, Reanimated, MMKV). Esta atividade exercita **o mínimo viável** pra você ter um app RN navegando + gerenciando estado — base pra todas as próximas.
-
-> 💡 **Nota:** Aula 2 mostrou **Redux Toolkit + RTK Query** porque sustenta apps grandes (enterprise, 10+ devs). Nesta atividade você usa **Zustand** porque é o que mercado 2026 puxa pra apps small-medium (~20M downloads/sem, 1KB bundle, 10x menos boilerplate). Lição arquitetural: **match tool to type of state** — não há winner único. Você sai exposto aos dois.
+Aula 2 cobriu **React Native New Architecture** (JSI, Fabric, TurboModules) + ferramentas modernas (React Navigation, **Zustand**, TanStack Query, Reanimated, MMKV). Esta atividade exercita **o mínimo viável** pra você ter um app RN navegando + gerenciando estado — base pra todas as próximas.
 
 ## Tarefa (3 passos em ~1h30)
 
