@@ -5,46 +5,54 @@
 // Doc: https://github.com/pmndrs/zustand
 
 import { create } from 'zustand';
-// TODO [TASK 7]: descomentar quando implementar persist (depois de mmkv.ts pronto)
-// import { mmkvStorage } from '@/storage/mmkv';
+import { mmkvStorage } from '@/storage/mmkv';
 
 type FavoritesState = {
-  ids: number[];
-  toggle: (id: number) => void;
+ids: number[];
+toggle: (id: number) => void;
   isFavorite: (id: number) => boolean;
-  // TODO [TASK 5]: declarar tipos das actions add, remove, clear
-  //   add: (id: number) => void;
-  //   remove: (id: number) => void;
-  //   clear: () => void;
+  add: (id: number) => void;
+  remove: (id: number) => void;
+  clear: () => void;
 };
 
-// TODO [TASK 7]: ler estado inicial do storage (persist load)
-// const STORAGE_KEY = 'favorites-ids';
-// const loadInitial = (): number[] => {
-//   try {
-//     const raw = mmkvStorage.getItem(STORAGE_KEY);
-//     return raw ? JSON.parse(raw) : [];
-//   } catch { return []; }
-// };
+const STORAGE_KEY = 'favorites-ids';
+const loadInitial = (): number[] => {
+  try {
+    const raw = mmkvStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch { return []; }
+};
 
-// TODO [TASK 5]: implementar actions abaixo
 export const useFavoritesStore = create<FavoritesState>((set, get) => ({
-  ids: [], // TODO [TASK 7]: trocar por loadInitial() pra carregar do storage
+  ids: loadInitial(),
   toggle: (id) => {
-    // TODO [TASK 5]: implementar
-    // - se id já existe em ids → remover
-    // - se não existe → adicionar
-    // Dica: usa get() pra ler ids atual, set({ ids: ... }) pra atualizar
+    const { ids } = get();
+    if (ids.includes(id)) {
+      set({ ids: ids.filter((favId) => favId !== id) });
+    } else {
+      set({ ids: [...ids, id] });
+    }
   },
+  add: (id) => {
+    const { ids } = get();
+    if (!ids.includes(id)) {
+      set({ ids: [...ids, id] });
+    }
+  },
+  remove: (id) => {
+    set({ ids: get().ids.filter((favId) => favId !== id) });
+  },
+  clear: () => set({ ids: [] }),
   isFavorite: (id) => get().ids.includes(id),
 }));
 
-// TODO [TASK 7]: persist manual — salva no storage sempre que ids mudar
-// useFavoritesStore.subscribe((state) => {
-//   try {
-//     mmkvStorage.setItem('favorites-ids', JSON.stringify(state.ids));
-//   } catch {}
-// });
+// Persist manual — salva no storage sempre que ids mudar
+useFavoritesStore.subscribe((state) => {
+  try {
+    mmkvStorage.setItem('favorites-ids', JSON.stringify(state.ids));
+  } catch {}
+});
 //
 // Por que persist manual em vez de middleware?
 // Zustand devtools middleware usa import.meta.env (Vite-style) que quebra

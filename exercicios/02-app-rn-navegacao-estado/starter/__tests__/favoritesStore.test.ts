@@ -21,8 +21,26 @@ describe('favoritesStore', () => {
     useFavoritesStore.setState({ ids: [] });
   });
 
-  // TODO [TASK 9]: adicione 3+ testes aqui (use IA).
-  test.skip('placeholder — remova quando implementar', () => {
-    expect(true).toBe(true);
+  test('toggle adiciona id se não existe', () => {
+    useFavoritesStore.getState().toggle(550);
+    expect(useFavoritesStore.getState().ids).toEqual([550]);
+  });
+
+  test('toggle remove id se já existe', () => {
+    useFavoritesStore.setState({ ids: [550, 238] });
+    useFavoritesStore.getState().toggle(550);
+    expect(useFavoritesStore.getState().ids).toEqual([238]);
+  });
+
+  test('isFavorite retorna true após add', () => {
+    useFavoritesStore.getState().add(680);
+    expect(useFavoritesStore.getState().isFavorite(680)).toBe(true);
+    expect(useFavoritesStore.getState().isFavorite(999)).toBe(false);
+  });
+
+  test('clear esvazia ids', () => {
+    useFavoritesStore.setState({ ids: [550, 238, 680] });
+    useFavoritesStore.getState().clear();
+    expect(useFavoritesStore.getState().ids).toEqual([]);
   });
 });

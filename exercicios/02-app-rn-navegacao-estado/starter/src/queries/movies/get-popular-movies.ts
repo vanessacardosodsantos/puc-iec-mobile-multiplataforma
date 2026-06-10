@@ -21,18 +21,10 @@ const fetchPopularMovies = async (page = 1) => {
   return res.data;
 };
 
-// TODO [TASK 2]: substituir o stub abaixo pelo useQuery real
-//
-// export const usePopularMovies = (page = 1) =>
-//   useQuery({
-//     queryKey: ['movies', 'popular', page],
-//     queryFn: () => fetchPopularMovies(page),
-//     staleTime: 1000 * 60 * 5, // 5 minutos
-//   });
+export const usePopularMovies = (page = 1) =>
+useQuery({
+     queryKey: ['movies', 'popular', page],
+    queryFn: () => fetchPopularMovies(page),
+     staleTime: 1000 * 60 * 5, // 5 minutos
+   });
 
-export const usePopularMovies = (page = 1) => ({
-  data: undefined as MoviesResponse | undefined,
-  isLoading: false,
-  error: null,
-  refetch: () => {},
-});
