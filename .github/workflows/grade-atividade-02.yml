@@ -22,12 +22,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      # 1) Base (main): o grader CONFIÁVEL do prof. NUNCA rodamos código do fork.
+      - uses: actions/checkout@v4
+
+      # 2) HEAD do PR isolado em _pr/: a entrega do aluno (não-confiável). O validator
+      #    só LÊ estaticamente esses arquivos — nada de instalar/executar a entrega.
       - uses: actions/checkout@v4
         with:
-          # pull_request_target faz checkout da BASE por padrão — precisa do HEAD do PR
-          # pra avaliar o código do aluno. Código não-confiável: NÃO rodamos npm install
-          # da entrega; o validator só LÊ os arquivos estaticamente.
           ref: ${{ github.event.pull_request.head.sha }}
+          path: _pr
 
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
@@ -76,7 +79,7 @@ jobs:
         working-directory: ./grader
         run: |
           npx tsx "lib/validators/${VALIDATOR}" \
-            --entrega "../${{ steps.discover.outputs.entrega }}" \
+            --entrega "../_pr/${{ steps.discover.outputs.entrega }}" \
             --output /tmp/grade.json \
             --student-login "${{ github.event.pull_request.user.login }}" \
             --commit-sha "${{ github.event.pull_request.head.sha }}" || true
