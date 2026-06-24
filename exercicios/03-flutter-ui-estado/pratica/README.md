@@ -29,6 +29,10 @@ Comece com os testes **vermelhos**; deixe-os **verdes**.
 
 Veja o `guia-passo-a-passo.md` (na pasta do exercício) e o `enunciado.md` (rubrica).
 
+## Por que provider escala melhor que prop drilling?
+
+Com prop drilling, cada widget intermediário precisa receber e repassar o estado — mesmo sem usá-lo — criando acoplamento desnecessário e tornando refatorações custosas à medida que a árvore cresce. Com um provider (Riverpod), o estado vive fora da árvore de widgets e qualquer widget pode lê-lo ou modificá-lo diretamente via `ref`, sem que os ancestrais precisem saber que ele existe. Nesta atividade isso fica evidente: `MovieCard`, o contador do header e o botão limpar compartilham **o mesmo `favoritesProvider`** sem que `HomeScreen` precise passar nada por parâmetro para `MovieCard` — basta observar o provider onde é necessário.
+
 ## Entrega
 Fork + PR no repo público; link no Canvas. O **J.A.R.V.I.S.** roda `flutter test` no seu PR.
 - ✏️ **Edite os arquivos dentro de `exercicios/03-flutter-ui-estado/pratica/` (no lugar)** — **não crie subpasta** `aluno-.../`. O autograder roda `flutter test` nessa pasta.

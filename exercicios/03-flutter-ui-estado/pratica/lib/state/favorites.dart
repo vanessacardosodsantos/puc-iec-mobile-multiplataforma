@@ -1,25 +1,15 @@
-// lib/state/favorites.dart
-//
-// Ex2 (TASK 2): estado compartilhado de favoritos com Riverpod.
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// ── Ex2 · TASK 2 — implemente o provider de favoritos · 🧑‍🏫 EM AULA (juntos) ──────────────────
-// Guarde os ids favoritados (um Set<int>) e exponha toggle(id) e clear():
-//
-//   class FavoritesNotifier extends Notifier<Set<int>> {
-//     @override
-//     Set<int> build() => {};
-//     void toggle(int id) {
-//       state = state.contains(id)
-//           ? ({...state}..remove(id))
-//           : {...state, id};
-//     }
-//     void clear() => state = {};          // usado pelo botão "limpar" (TASK 5)
-//   }
-//
-//   final favoritesProvider =
-//       NotifierProvider<FavoritesNotifier, Set<int>>(FavoritesNotifier.new);
-//
-// 👇 Apague o stub abaixo e implemente o provider acima.
-final favoritesProvider = Provider<Set<int>>((ref) => const <int>{});
+class FavoritesNotifier extends Notifier<Set<int>> {
+  @override
+  Set<int> build() => {};
+
+  void toggle(int id) {
+    state = state.contains(id) ? ({...state}..remove(id)) : {...state, id};
+  }
+
+  void clear() => state = {};
+}
+
+final favoritesProvider =
+    NotifierProvider<FavoritesNotifier, Set<int>>(FavoritesNotifier.new);
